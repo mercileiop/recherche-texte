@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Recherche élèves</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  textarea, input { width: 100%; padding: 10px; margin-bottom: 10px; font-size: 16px; }
+  ul { list-style: none; padding: 0; }
+  li { padding: 6px 0; border-bottom: 1px solid #ccc; }
+</style>
+</head>
+<body>
+
+<h2>🔍 Recherche d'élèves</h2>
+
+<!-- Zone où tu colles toute la liste -->
+<textarea id="listeEleves" rows="10" placeholder="Colle ici toute ta liste d’élèves, une par ligne"></textarea>
+
+<!-- Barre de recherche -->
+<input type="text" id="search" placeholder="Tape un prénom, nom ou une lettre...">
+
+<ul id="resultats"></ul>
+
+<script>
+const listeElevesTextarea = document.getElementById("listeEleves");
+const searchInput = document.getElementById("search");
+const resultats = document.getElementById("resultats");
+
+function afficherResultats() {
+  const liste = listeElevesTextarea.value.split("\n"); // transforme chaque ligne en élément
+  const filtre = searchInput.value.toLowerCase().trim();
+
+  resultats.innerHTML = "";
+  const filtres = liste.filter(ligne => ligne.toLowerCase().includes(filtre));
+
+  if(filtres.length === 0 && filtre !== "") {
+    resultats.innerHTML = "<li>❌ Aucun élève trouvé</li>";
+  } else {
+    filtres.forEach(e => {
+      const li = document.createElement("li");
+      li.textContent = e;
+      resultats.appendChild(li);
+    });
+  }
+}
+
+// Recherche en direct
+searchInput.addEventListener("input", afficherResultats);
+listeElevesTextarea.addEventListener("input", afficherResultats);
+
+</script>
+
+</body>
+</html>
